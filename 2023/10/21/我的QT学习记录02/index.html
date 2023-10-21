@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>我的 QT 学习记录02 - ExpZero的博客</title>
+
+  
+    <meta name="description" content="一、对象树 对象树，也叫对象模型，是把子类依次绑定到父类，形成的树状结构  对象树是 Qt 简化内存回收的模型，析构一个对象时会先依次递归析构其子对象，然后把自己从 parent  的 children() 里面删除  在栈上可能遇到析构的问题示例，解决方案是建议在堆上进行构造 1234567891011&#x2F;&#x2F; 该段代码无问题，因为栈一般先构造的后析构&#x2F;&#x2F; 这里先析构 button，并从 windo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的 QT 学习记录02">
+<meta property="og:url" content="http://example.com/2023/10/21/%E6%88%91%E7%9A%84QT%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9502/index.html">
+<meta property="og:site_name" content="ExpZero的博客">
+<meta property="og:description" content="一、对象树 对象树，也叫对象模型，是把子类依次绑定到父类，形成的树状结构  对象树是 Qt 简化内存回收的模型，析构一个对象时会先依次递归析构其子对象，然后把自己从 parent  的 children() 里面删除  在栈上可能遇到析构的问题示例，解决方案是建议在堆上进行构造 1234567891011&#x2F;&#x2F; 该段代码无问题，因为栈一般先构造的后析构&#x2F;&#x2F; 这里先析构 button，并从 windo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-21T04:06:12.000Z">
+<meta property="article:modified_time" content="2023-10-21T04:08:50.005Z">
+<meta property="article:author" content="Exp_Zero">
+<meta property="article:tag" content="Qt">
+<meta name="twitter:card" content="summary">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="title" href="/"><div class="main" ff="title">ExpZero的博客</div></a></div>
+
+<nav class="menu dis-select"></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">我的 QT 学习记录02</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AF%B9%E8%B1%A1%E6%A0%91"><span class="toc-text">一、对象树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BF%A1%E5%8F%B7%E4%B8%8E%E6%A7%BD%E6%9C%BA%E5%88%B6"><span class="toc-text">二、信号与槽机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BF%A1%E5%8F%B7%E4%B8%8E%E6%A7%BD%E7%9A%84%E6%80%BB%E7%BB%93"><span class="toc-text">三、信号与槽的总结</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-10-21T04:06:12.000Z">2023-10-21</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>我的 QT 学习记录02</span></h1>
+<h3 id="一、对象树"><a href="#一、对象树" class="headerlink" title="一、对象树"></a>一、对象树</h3><ol>
+<li><p><strong>对象树</strong>，也叫<strong>对象模型</strong>，是把<strong>子类</strong>依次<strong>绑定</strong>到<strong>父类</strong>，形成的树状结构</p>
+</li>
+<li><p><strong>对象树</strong>是 <code>Qt</code> 简化<strong>内存回收</strong>的模型，<strong>析构</strong>一个对象时会<strong>先</strong>依次递归析构其<strong>子对象</strong>，然后把自己从 <code>parent</code>  的 <code>children()</code> 里面删除</p>
+</li>
+<li><p>在<strong>栈上</strong>可能遇到析构的<strong>问题</strong>示例，解决方案是<strong>建议</strong>在<strong>堆上</strong>进行构造</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 该段代码无问题，因为栈一般先构造的后析构</span></span><br><span class="line"><span class="comment">// 这里先析构 button，并从 window 的子对象列表中删除</span></span><br><span class="line"><span class="comment">// 然后析构 window(此时已经无子对象)</span></span><br><span class="line">Qwidget window;</span><br><span class="line">OPushButton button = <span class="built_in">QPushButton</span> (<span class="string">&quot;退出&quot;</span>，&amp;window);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 该段代码有问题:因为栈一般先构造的后析构，导致重复析构，程序崩溃。</span></span><br><span class="line"><span class="comment">// 下面程序是先析构 window，析构 window 及其子对象(quit)，然后析构quit</span></span><br><span class="line"><span class="function">QPushButton <span class="title">quit</span><span class="params">(<span class="string">&quot;Quit&quot;</span>)</span></span>;</span><br><span class="line">Qwidget window;</span><br><span class="line">quit.<span class="built_in">setParent</span>(&amp;window);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="二、信号与槽机制"><a href="#二、信号与槽机制" class="headerlink" title="二、信号与槽机制"></a>二、信号与槽机制</h3><ol>
+<li><p><strong>信号槽</strong>是 <code>Qt</code> 特色，某个<strong>事件</strong>发生后，会广播一个<strong>信号</strong>(signal)，如果有对象需要对这个信号反馈，就会使用<strong>连接</strong>函数(connect)，即为将要处理的信号与自己的<strong>反馈函数</strong>(称为槽slot)<strong>绑定</strong>来处理这个信号。也就是说，<strong>信号被发出后，被连接的槽函数会自动被回调</strong>，类似<strong>观察者模式</strong></p>
+</li>
+<li><p><strong>连接函数</strong> <code>connect</code> 的使用</p>
+<ol>
+<li>基本用法：<code>connect(sender,signal,receiver,slot)</code></li>
+<li>发送者，信号，接收者，槽函数</li>
+<li>可以参考帮助手册上需要的类及其父类的 <code>Public Slots</code> 和 <code>Signals</code></li>
+</ol>
+</li>
+<li><p>使用<strong>预设的信号槽</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// widget.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QPushButton&gt;</span></span></span><br><span class="line">Widget::<span class="built_in">Widget</span>(QWidget *parent)</span><br><span class="line">    : <span class="built_in">QWidget</span>(parent)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 创建按钮</span></span><br><span class="line">    QPushButton *btn=<span class="keyword">new</span> <span class="built_in">QPushButton</span>(<span class="string">&quot;点击关闭窗口&quot;</span>,<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">this</span>-&gt;<span class="built_in">resize</span>(<span class="number">600</span>,<span class="number">400</span>);</span><br><span class="line">    <span class="comment">// 绑定信号</span></span><br><span class="line">    <span class="built_in">connect</span>(btn,&amp;QPushButton::clicked,<span class="keyword">this</span>,&amp;Widget::close);</span><br><span class="line">&#125;</span><br><span class="line">Widget::~<span class="built_in">Widget</span>()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>自定义信号槽</strong></p>
+<ol>
+<li><p>大致思路</p>
+<ol>
+<li>添加信号发送类，接收类</li>
+<li>在发送类中声明信号，在接收类中声明并实现槽函数</li>
+</ol>
+</li>
+<li><p>注意</p>
+<ol>
+<li><strong>信号</strong> 在头文件的 <code>signals</code> 中<strong>声明</strong>，返回值 <code>void</code> ，可以有参数，仅声明<strong>不实现</strong>，可重载</li>
+<li><strong>槽函数</strong> 在头文件的 <code>public slots</code> 里面<strong>声明</strong>，需要<strong>实现</strong>，返回值 <code>void</code>，可以有参数，可重载。对于一些高版本的来说，也可以写到 <code>public</code> 或者全局。</li>
+</ol>
+</li>
+<li><p>简易示例，借助 <code>QDebug</code></p>
+<ol>
+<li><p>项目结构</p>
+<ol>
+<li><code>widget.h</code>, <code>widget.cpp</code>, <code>main.cpp</code>, 按照预设</li>
+<li><code>mysender.h</code>, <code>mysender.cpp</code>，继承自 <code>QObject</code></li>
+<li><code>myreceiver.h</code>，<code>myreceiver.cpp</code>, 继承自 <code>QObject</code></li>
+</ol>
+</li>
+<li><p>信号与槽的定义实现</p>
+<ol>
+<li><p><code>mysender.h</code> 添加内容</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">signals: <span class="comment">// 信号声明</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">here_a_signal</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>myreceiver.h</code> 添加内容</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> slots:  <span class="comment">// 槽函数声明</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">slots_ok</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>myreceiver.cpp</code> 添加内容</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QDebug&gt;</span> <span class="comment">// 槽函数实现</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MyReceiver::slots_ok</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">qDebug</span>()&lt;&lt;<span class="string">&quot;这是槽函数，已经收到信号&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>配置与连接</p>
+<ol>
+<li><p><code>widget.h</code> </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;mysender.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;myreceiver.h&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    MySender *sdr;</span><br><span class="line">    MyReceiver *rcvr;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>widget.cpp</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 自定义信号与槽</span></span><br><span class="line"><span class="keyword">this</span>-&gt;sdr = <span class="keyword">new</span> <span class="built_in">MySender</span>();</span><br><span class="line"><span class="keyword">this</span>-&gt;rcvr =<span class="keyword">new</span> <span class="built_in">MyReceiver</span>();</span><br><span class="line"><span class="comment">// 连接信号槽</span></span><br><span class="line"><span class="built_in">connect</span>(sdr,&amp;MySender::here_a_signal,rcvr,&amp;MyReceiver::slots_ok);</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>信号产生</p>
+<ol>
+<li><p><code>widget.h</code> </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pubic:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">signal_generate</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>widget.cpp</code> </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Widget::signal_generate</span><span class="params">()</span> <span class="comment">// 信号产生函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    emit sdr-&gt;<span class="built_in">here_a_signal</span>();<span class="comment">// 触发信号</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 发出信号</span></span><br><span class="line"><span class="built_in">signal_generate</span>();</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>程序现象</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10</span>:<span class="number">01</span>:<span class="number">14</span>: Starting Qtlearning01.exe...</span><br><span class="line">&gt;&gt;这是槽函数，已经收到信号</span><br><span class="line"><span class="number">10</span>:<span class="number">01</span>:<span class="number">20</span>: Qtlearning01.exe 退出，退出代码: <span class="number">0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>示例更进一步-绑定按钮</p>
+<ol>
+<li><p>方式一，信号触发函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">connect</span>(button,&amp;QPushButton::clicked,<span class="keyword">this</span>,&amp;Widget::signal_generate);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方式二，信号连接信号</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">connect</span>(button,&amp;QPushButton::clicked,sdr,&amp;MySender::here_a_signal);</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p><strong>槽函数</strong>的<strong>参数</strong>与<strong>重载</strong> <a target="_blank" rel="noopener" href="https://blog.csdn.net/luolaihua2018/article/details/110491011">参考CSDN</a></p>
+<ol>
+<li><p>在Qt中信号和槽都可以是函数指针，即 <strong>&amp;函数名</strong>，即可得到函数所在的地址，但是如果遇到<strong>重载</strong>的函数，如果<strong>不区分</strong>就会<strong>报错</strong>。</p>
+</li>
+<li><p><strong>重载</strong>的两种方式</p>
+<ol>
+<li><p>使用 <code>QOverload</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">connect</span>(comboBox, QOverload&lt;<span class="type">int</span>&gt;::<span class="built_in">of</span>(&amp;QComboBox::activated),</span><br><span class="line">      [=](<span class="type">int</span> index)&#123; <span class="comment">/* ... */</span> &#125;);</span><br><span class="line"><span class="built_in">connect</span>(comboBox, QOverload&lt;<span class="type">const</span> QString &amp;&gt;::<span class="built_in">of</span>(&amp;QComboBox::activated),</span><br><span class="line">      [=](<span class="type">const</span> QString &amp;text)&#123; <span class="comment">/* ... */</span> &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>借助<strong>函数指针</strong>的思想</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">void</span> (QComboBox:: * activatedInt)(<span class="type">int</span>) = &amp;QComboBox::activated;</span><br><span class="line"><span class="built_in">void</span> (QComboBox:: * activatedString)(QString) = &amp;QComboBox::activated;</span><br><span class="line"><span class="built_in">connect</span>(comboBox, activatedInt,</span><br><span class="line">      [=](<span class="type">int</span> index)&#123; <span class="comment">/* ... */</span> &#125;);</span><br><span class="line"><span class="built_in">connect</span>(comboBox, activatedString,</span><br><span class="line">      [=](<span class="type">const</span> QString &amp;text)&#123; <span class="comment">/* ... */</span> &#125;);</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p><code>C++</code> 补充示例-<strong>函数指针</strong>遇上<strong>函数重载</strong> <a href="%5BC++%E4%B8%AD%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E9%81%87%E4%B8%8A%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD-CSDN%E5%8D%9A%E5%AE%A2%5D(https://blog.csdn.net/xiaoyink/article/details/79441277)">参考CSDN</a></p>
+<ol>
+<li><p>确定类型指针</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">int</span> a)</span></span>&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;a is &quot;</span> &lt;&lt; a &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;hello world&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(* Fun)</span><span class="params">(<span class="type">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(* Fun2)</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Fun pPrint = print; </span><br><span class="line">    Fun2 pPrint2 = print;</span><br><span class="line">    <span class="built_in">pPrint</span>(<span class="number">12</span>);</span><br><span class="line">    <span class="built_in">pPrint2</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>程序运行结果</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;a is <span class="number">12</span></span><br><span class="line">&gt;&gt;hello world</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>非确定类型指针</p>
+<p>重载函数作为参数传递时，特别形参的类型不是确定的函数指针类型时，如 <code>void *</code>，例如 <code>Qt</code> 中的<code>QObject::connect()</code> 函数，重载的信号或槽传入到 <code>connect</code> 时，可以使用 <code>static_cast&lt;&gt;</code> 来区别重载函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">connect</span>(subWidget, <span class="built_in">static_cast</span>&lt;<span class="built_in">void</span>(SubWidget::*)()&gt;(&amp;SubWidget::switchWin), <span class="keyword">this</span>, &amp;MainWidget::switchWinSlot);</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p><strong>一般方法</strong> 示例</p>
+<ol>
+<li><p><strong>重写信号</strong>声声明(带参数)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">signals:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">here_a_signal</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">here_a_signal</span><span class="params">(QString content)</span></span>; </span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>重写槽函数</strong>声明与定义(带参数)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">slots_ok</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">slots_ok</span><span class="params">(QString content)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MyReceiver::slots_ok</span><span class="params">(QString content)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">qDebug</span>()&lt;&lt;<span class="string">&quot;这是重载的槽函数，信号内容:&quot;</span>&lt;&lt;content;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">signal_generate</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">signal_generate</span><span class="params">(QString qstr)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Widget::signal_generate</span><span class="params">(QString qstr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    emit sdr-&gt;<span class="built_in">here_a_signal</span>(qstr);<span class="comment">// 触发信号</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>由于函数重载了，这里利用<strong>函数指针指向函数地址</strong>，然后再作<strong>连接</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 重载的信号与槽</span></span><br><span class="line"><span class="comment">// ***函数指针指向重载的函数</span></span><br><span class="line"><span class="built_in">void</span> (MySender::*myowsgnal)(QString)=&amp;MySender::here_a_signal;</span><br><span class="line"><span class="built_in">void</span> (MyReceiver::*myowslot)(QString)=&amp;MyReceiver::slots_ok;</span><br><span class="line"><span class="comment">// ***信号连接</span></span><br><span class="line"><span class="built_in">connect</span>(sdr,myowsgnal,rcvr,myowslot);</span><br><span class="line"><span class="comment">// 信号触发</span></span><br><span class="line"><span class="built_in">signal_generate</span>(<span class="string">&quot;这是一个信号&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>程序现象</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>:<span class="number">18</span>:<span class="number">41</span>: Starting Qtlearning01.exe...</span><br><span class="line">&gt;&gt;这是重载的槽函数，信号内容: <span class="string">&quot;这是一个信号&quot;</span></span><br><span class="line"><span class="number">11</span>:<span class="number">18</span>:<span class="number">50</span>: Qtlearning01.exe 退出，退出代码: <span class="number">0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>补充</strong>-关于 <code>QString</code></p>
+<ol>
+<li><p><code>QString</code> 直接输出是有双引号的，如果要去掉双引号，可以按照以下途径进行转换</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// QString-&gt;QByteArray-&gt;char*</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">qDebug</span>()&lt;&lt;<span class="string">&quot;信号内容:&quot;</span>&lt;&lt;content.<span class="built_in">toUtf8</span>().<span class="built_in">data</span>();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>此时两个输出之间会多一个空格，若要取消空格，可以使用 <code>nospace()</code> 方法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">qDebug</span>().<span class="built_in">nospace</span>()&lt;&lt;<span class="string">&quot;信号内容:&quot;</span>&lt;&lt;content.<span class="built_in">toUtf8</span>().<span class="built_in">data</span>();</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p><strong>补充</strong>-关于 <code>Qt4</code> 的信号与槽</p>
+<ol>
+<li><p>使用示例</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">connect</span>(sender,<span class="built_in">SIGNAL</span>(<span class="built_in">here_a_signal</span>(QString)),receiver,<span class="built_in">SLOT</span>(<span class="built_in">slot_ok</span>(QString)));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其中用到了 <code>SIGNAL</code> 和 <code>SLOT</code> 两个宏，把信号和槽函数转为字符串，但是这个过程编译时不会检查拼写错误，故容易出错</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="三、信号与槽的总结"><a href="#三、信号与槽的总结" class="headerlink" title="三、信号与槽的总结"></a>三、信号与槽的总结</h3><ol>
+<li><p>注意事项</p>
+<ol>
+<li>信号<strong>发送者</strong>和<strong>接收者</strong>都是 <code>QObject</code> 的子类，<strong>除非</strong>使用<strong>全局槽函数</strong>或 <code>lambda</code> 函数</li>
+<li>信号和槽函数返回值都是 <code>void</code></li>
+<li>信号只声明，槽函数声明并实现</li>
+<li>槽函数是普通的成员函数，会受到 <code>public</code> , <code>privace</code> , <code>protect</code> 的影响</li>
+<li>可以使用 <code>emit</code> 在恰当位置发送信号</li>
+<li>使用 <code>connect()</code> 连接信号与槽</li>
+<li>任何成员函数、<code>static</code> 函数、全局函数和 <code>lambda</code> 表达式都可以作为槽函数</li>
+<li>信号槽要求<strong>信号</strong>和<strong>槽函数</strong>的<strong>参数一致</strong>。如果不一致，允许的情况是槽函数参数比信号少，但类型和顺序应当一致，这样可以在在槽函数中选择忽略信号传来的数据</li>
+</ol>
+</li>
+<li><p>拓展</p>
+<ol>
+<li><p><strong>一个信号</strong>可以连接<strong>多个槽</strong>函数</p>
+<p>此时这些槽<strong>都</strong>会被<strong>调用</strong>, 但调用<strong>顺序不确定</strong></p>
+</li>
+<li><p><strong>多个信号</strong>可以连接<strong>一个槽</strong>函数</p>
+<p>任意信号发出, 槽函数都会被调用</p>
+</li>
+<li><p><strong>信号连接信号</strong></p>
+<p>一个信号发出会触发第二个信号</p>
+</li>
+<li><p>槽可以取消连接</p>
+<p>不常见, 因为一个对象被 Delete 后, 这个对象上的槽也会被自动取消</p>
+</li>
+<li><p>可以使用 <code>C++11</code> 的 <code>lambda</code> 表达式</p>
+</li>
+</ol>
+</li>
+</ol>
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/10/20/%E6%88%91%E7%9A%84QT%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/">我的 QT 学习记录 01</a></div></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
